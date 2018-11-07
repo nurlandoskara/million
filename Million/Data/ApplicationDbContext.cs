@@ -18,5 +18,16 @@ namespace Million.Data
         public new DbSet<User> Users { get; set; }
         public DbSet<UserMoney> UserMoneys { get; set; }
         public DbSet<UserAnswer> UserAnswers { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<UserAnswer>()
+                .HasOne(p => p.Question)
+                .WithMany(b => b.UserAnswers)
+                .HasForeignKey(p => p.QuestionId)
+                .HasConstraintName("FK_UserAnswers_Questions");
+        }
     }
 }
