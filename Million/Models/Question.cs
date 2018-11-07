@@ -12,7 +12,8 @@ namespace Million.Models
         [ForeignKey("QuestionScope")]
         public int QuestionScopeId { get; set; }
         public QuestionScope QuestionScope { get; set; }
-        public List<UserAnswer> UserAnswers { get; set; }
+        [ForeignKey("UserAnswer")]
+        public ICollection<UserAnswer> UserAnswers { get; set; } //todo: doesn;t work correctly
 
         public int QuestionRating => (UserAnswers != null && UserAnswers.Any())
             ? UserAnswers.Count(x => x.AnswerId != CorrectAnswerId) -

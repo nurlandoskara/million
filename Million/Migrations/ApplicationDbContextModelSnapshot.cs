@@ -367,7 +367,7 @@ namespace Million.Migrations
 
             modelBuilder.Entity("Million.Models.UserAnswer", b =>
                 {
-                    b.HasOne("Million.Models.Question", "Question")
+                    b.HasOne("Million.Models.Question")
                         .WithMany("UserAnswers")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade);
