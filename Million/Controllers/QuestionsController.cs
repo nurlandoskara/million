@@ -12,9 +12,9 @@ namespace Million.Controllers
 {
     public class QuestionsController : Controller
     {
-        private readonly MillionDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public QuestionsController(MillionDbContext context)
+        public QuestionsController(ApplicationDbContext context)
         {
             _context = context;
         }

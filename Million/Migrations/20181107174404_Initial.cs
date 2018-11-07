@@ -87,7 +87,7 @@ namespace Million.Migrations
                     IsDeleted = table.Column<bool>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false, defaultValueSql: "GETUTCDATE()"),
                     Username = table.Column<string>(nullable: true),
-                    Hash = table.Column<string>(nullable: true)
+                    Hash = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -210,7 +210,8 @@ namespace Million.Migrations
                     DateCreated = table.Column<DateTime>(nullable: false, defaultValueSql: "GETUTCDATE()"),
                     Text = table.Column<string>(nullable: true),
                     CorrectAnswerId = table.Column<int>(nullable: true),
-                    QuestionScopeId = table.Column<int>(nullable: false)
+                    QuestionScopeId = table.Column<int>(nullable: false),
+                    QuestionRating = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -239,35 +240,6 @@ namespace Million.Migrations
                     table.PrimaryKey("PK_UserMoneys", x => x.Id);
                     table.ForeignKey(
                         name: "FK_UserMoneys_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "QuestionRatings",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    DateCreated = table.Column<DateTime>(nullable: false, defaultValueSql: "GETUTCDATE()"),
-                    QuestionId = table.Column<int>(nullable: false),
-                    Answered = table.Column<bool>(nullable: false),
-                    UserId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_QuestionRatings", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_QuestionRatings_Questions_QuestionId",
-                        column: x => x.QuestionId,
-                        principalTable: "Questions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_QuestionRatings_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -314,16 +286,6 @@ namespace Million.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_QuestionRatings_QuestionId",
-                table: "QuestionRatings",
-                column: "QuestionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_QuestionRatings_UserId",
-                table: "QuestionRatings",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Questions_QuestionScopeId",
                 table: "Questions",
                 column: "QuestionScopeId");
@@ -355,7 +317,7 @@ namespace Million.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "QuestionRatings");
+                name: "Questions");
 
             migrationBuilder.DropTable(
                 name: "UserMoneys");
@@ -367,13 +329,10 @@ namespace Million.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Questions");
+                name: "QuestionScopes");
 
             migrationBuilder.DropTable(
                 name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "QuestionScopes");
         }
     }
 }

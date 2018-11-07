@@ -4,6 +4,7 @@ namespace Million.ViewModels
 {
     public class QuestionViewModel
     {
+        public int Id { get; set; }
         [Required]
         public string Text { get; set; }
         [Required]

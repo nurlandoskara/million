@@ -11,5 +11,12 @@ namespace Million.Data
         {
 
         }
+
+        public DbSet<Question> Questions { get; set; }
+        public DbSet<Answer> Answers { get; set; }
+        public DbSet<QuestionScope> QuestionScopes { get; set; }
+        public new DbSet<User> Users { get; set; }
+        public DbSet<UserMoney> UserMoneys { get; set; }
+        public DbSet<UserAnswer> UserAnswers { get; set; }
     }
 }

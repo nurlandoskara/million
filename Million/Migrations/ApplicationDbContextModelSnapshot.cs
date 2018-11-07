@@ -210,7 +210,7 @@ namespace Million.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CorrectAnswerId");
+                    b.Property<int>("CorrectAnswerId");
 
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAddOrUpdate();
@@ -226,32 +226,6 @@ namespace Million.Migrations
                     b.HasIndex("QuestionScopeId");
 
                     b.ToTable("Questions");
-                });
-
-            modelBuilder.Entity("Million.Models.QuestionRating", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("Answered");
-
-                    b.Property<DateTime>("DateCreated")
-                        .ValueGeneratedOnAddOrUpdate();
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<int>("QuestionId");
-
-                    b.Property<int>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuestionId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("QuestionRatings");
                 });
 
             modelBuilder.Entity("Million.Models.QuestionScope", b =>
@@ -281,7 +255,7 @@ namespace Million.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAddOrUpdate();
 
-                    b.Property<string>("Hash");
+                    b.Property<Guid>("Hash");
 
                     b.Property<bool>("IsDeleted");
 
@@ -290,6 +264,30 @@ namespace Million.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Million.Models.UserAnswer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AnswerId");
+
+                    b.Property<DateTime>("DateCreated")
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<int>("QuestionId");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("UserAnswers");
                 });
 
             modelBuilder.Entity("Million.Models.UserMoney", b =>
@@ -367,16 +365,11 @@ namespace Million.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Million.Models.QuestionRating", b =>
+            modelBuilder.Entity("Million.Models.UserAnswer", b =>
                 {
                     b.HasOne("Million.Models.Question", "Question")
-                        .WithMany()
+                        .WithMany("UserAnswers")
                         .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Million.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

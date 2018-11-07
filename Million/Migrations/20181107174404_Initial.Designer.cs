@@ -10,8 +10,8 @@ using Million.Data;
 namespace Million.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181106163158_Initial2")]
-    partial class Initial2
+    [Migration("20181107174404_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -219,6 +219,8 @@ namespace Million.Migrations
 
                     b.Property<bool>("IsDeleted");
 
+                    b.Property<int>("QuestionRating");
+
                     b.Property<int>("QuestionScopeId");
 
                     b.Property<string>("Text");
@@ -228,32 +230,6 @@ namespace Million.Migrations
                     b.HasIndex("QuestionScopeId");
 
                     b.ToTable("Questions");
-                });
-
-            modelBuilder.Entity("Million.Models.QuestionRating", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("Answered");
-
-                    b.Property<DateTime>("DateCreated")
-                        .ValueGeneratedOnAddOrUpdate();
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<int>("QuestionId");
-
-                    b.Property<int>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuestionId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("QuestionRatings");
                 });
 
             modelBuilder.Entity("Million.Models.QuestionScope", b =>
@@ -283,7 +259,7 @@ namespace Million.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAddOrUpdate();
 
-                    b.Property<string>("Hash");
+                    b.Property<Guid>("Hash");
 
                     b.Property<bool>("IsDeleted");
 
@@ -366,19 +342,6 @@ namespace Million.Migrations
                     b.HasOne("Million.Models.QuestionScope", "QuestionScope")
                         .WithMany()
                         .HasForeignKey("QuestionScopeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Million.Models.QuestionRating", b =>
-                {
-                    b.HasOne("Million.Models.Question", "Question")
-                        .WithMany()
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Million.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
